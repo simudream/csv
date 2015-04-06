@@ -1,5 +1,6 @@
 import csv
 import paramiko
+import re
     
 #delcare all the variable as list
 hostnames = []
@@ -37,24 +38,60 @@ def readcsv(csvname,user='admin',port='221'):
         
 #declare the main function    
 def main():
+    
+    
+    
     #call the readcsv function
     readcsv('cara.csv')
     
-    #start loop for the ssh connection
-    for cnt,host in enumerate (hostnames): 
-        ssh = paramiko.SSHClient()
-        ssh.load_system_host_keys()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        try:
-            ssh.connect(ips[cnt], username='admin', password=passwords[cnt], port=221 , timeout=120)    
-        except Exception as e:
-            print "Hostname: "  + hostnames[cnt] + str(e) 
-            pass
-    #run a command on the ssh connection
-    #stdin, stdout ,stderr = ssh.exec_command(cmd[], timeout=cmd[self.SSH_TIMEOUT_INDEX])
+    
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect('192.168.31.2', username='sbaruffi', password='foreignguy')
+    
+    chan = ssh.invoke_shell()
+    
+    buff = ''
+    
+    while not buff.endswith('# '):
+        resp = chan.recv(9999)
+        buff += resp
+    
+    # Ssh and wait for the password prompt.
+    chan.send('show clients\n')
+    buff = ''
+    
+    while not buff.endswith('# '):
+        resp = chan.recv(9999)
+        buff += resp
+        print 'buff', buff
+    
+    total = []
+    lines = buff.split('\r\n')
+    for cnt,line in enumerate(lines):
+        result =  [s.strip() for s in line.split('  ') if s.strip()]
+        total +=  result 
     
     
-    #exit the program
+    list_ips = re.findall(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", str(total))
+    
+    newlist = []
+    for i in list_ips:
+        newlist.append(i.split('\t')[0])
+    
+    
+    print newlist[0]
+    print newlist[1]
+    
+    
+        
+        
+    ssh.close()
+   
+  
+        
+   
+   
     exit()
     
     
