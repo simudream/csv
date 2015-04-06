@@ -1,4 +1,12 @@
 import csv
+import paramiko
+    
+#delcare all the variable as list
+hostnames = []
+sitenames = []
+macaddresses =[]
+passwords = []
+ips = []
 
 #declare readcsv function and parameters required
 def readcsv(csvname,user='admin',port='221'):
@@ -7,12 +15,6 @@ def readcsv(csvname,user='admin',port='221'):
     with open(csvname) as csvfile:
         readcsv = csv.reader(csvfile,delimiter=',')
     
-        #delcare all the variable as list
-        hostnames = []
-        sitenames = []
-        macaddresses =[]
-        passwords = []
-        ips = []
         
         #start the loop to insert all data on the lists
         for counter,row in enumerate (readcsv): 
@@ -38,8 +40,18 @@ def main():
     #call the readcsv function
     readcsv('cara.csv')
     
-    
-    
+    #start loop for the ssh connection
+    for cnt,host in enumerate (hostnames): 
+        ssh = paramiko.SSHClient()
+        ssh.load_system_host_keys()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        try:
+            ssh.connect(ips[cnt], username='admin', password=passwords[cnt], port=221 , timeout=120)    
+        except Exception as e:
+            print "Hostname: "  + hostnames[cnt] + str(e) 
+            pass
+    #run a command on the ssh connection
+    #stdin, stdout ,stderr = ssh.exec_command(cmd[], timeout=cmd[self.SSH_TIMEOUT_INDEX])
     
     
     #exit the program
