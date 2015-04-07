@@ -67,25 +67,29 @@ def main():
         print 'buff', buff
     
     total = []
+    names = []
+    ipss = []
     lines = buff.split('\r\n')
     for cnt,line in enumerate(lines):
         result =  [s.strip() for s in line.split('  ') if s.strip()]
-        total +=  result 
+        names.append(result[0].rstrip())
+        ipss.append(result[1].rstrip())
+        
     
+    print total
     
+    #go fuck you python
     list_ips = re.findall(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", str(total))
     
     newlist = []
     for i in list_ips:
         newlist.append(i.split('\t')[0])
     
-    
-    print newlist[0]
-    print newlist[1]
-    
-    
+    for i in newlist:
+        print i
         
-        
+    
+
     ssh.close()
    
   
