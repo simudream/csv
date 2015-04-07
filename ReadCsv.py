@@ -97,7 +97,7 @@ class SSHClient():
         
         return output,error_value,exit_status,timer
 
-#declare readcsv function and parameters required
+#declare readcsv function and parameters
 def readcsv(csvname,user='admin',port='221'):
 
 #open the csv file
