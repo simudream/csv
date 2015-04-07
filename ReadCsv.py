@@ -74,13 +74,24 @@ def main():
     for cnt,line in enumerate(lines):
         if cnt < 6:
             continue
-        result =  [s.strip() for s in line.split('  ') if s.strip()]
-        print result
-        if result.__len__()> 9:
-            names.append(result[0].rstrip())
-            ipss.append(result[1].rstrip())
+        #result =  [s.strip() for s in line.split('  ') if s.strip()]
+        list_ips = re.findall(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", line)
+        list_names = line.split(' ', 1)[0]
+        
+        
+        
+        if line.__len__()>30 and list_ips.__len__()>0:
+            print "Client name: " + str(list_names) + " have the ip address of " + str(list_ips)
+            
+            
+            
+        
+            
+        #if result.__len__()> 9:
+        #    names.append(result[0].rstrip())
+        #    ipss.append(result[1].rstrip())
     
-    print ipss
+   # print ipss
     
 
 #     
