@@ -37,6 +37,7 @@ def readcsv(csvname,user='admin',port='221'):
         print ips
         
 #declare the main function    
+#hahaha
 def main():
     
     
