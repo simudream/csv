@@ -24,17 +24,17 @@ def readcsv(csvname,user='admin',port='221'):
                 continue
             #add the data into the list
             hostnames.append(row[0])
-            sitenames.append(row[1])
+            sitenames.append(row[1]) 
             macaddresses.append(row[2])
             passwords.append(row[7])
             ips.append(row[10])
         
         #print the lists
-        print hostnames
-        print sitenames 
-        print macaddresses
-        print passwords
-        print ips
+        print (hostnames)
+        print (sitenames) 
+        print (macaddresses)
+        print (passwords)
+        print (ips)
         
 #declare the main function    
 #hahaha fuck you
@@ -56,7 +56,7 @@ def main():
     
     while not buff.endswith('# '):
         resp = chan.recv(9999)
-        buff += resp
+        buff += str.encode(resp)
     
     # Ssh and wait for the password prompt.
     chan.send('show clients\n')
@@ -65,7 +65,7 @@ def main():
     while not buff.endswith('# '):
         resp = chan.recv(9999)
         buff += resp
-        print 'buff', buff
+        print ('buff', buff)
     
     total = []
     names = []
@@ -81,7 +81,7 @@ def main():
         
         
         if line.__len__()>30 and list_ips.__len__()>0:
-            print "Client name: " + str(list_names) + " have the ip address of " + str(list_ips)
+            print ("Client name: " + str(list_names) + " have the ip address of " + str(list_ips))
             
             
             
