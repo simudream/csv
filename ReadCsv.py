@@ -71,24 +71,29 @@ def main():
     ipss = []
     lines = buff.split('\r\n')
     for cnt,line in enumerate(lines):
+        if cnt < 6:
+            continue
         result =  [s.strip() for s in line.split('  ') if s.strip()]
-        names.append(result[0].rstrip())
-        ipss.append(result[1].rstrip())
-        
+        print result
+        if result.__len__()> 9:
+            names.append(result[0].rstrip())
+            ipss.append(result[1].rstrip())
     
-    print total
+    print ipss
     
-    #go fuck you python
-    list_ips = re.findall(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", str(total))
-    
-    newlist = []
-    for i in list_ips:
-        newlist.append(i.split('\t')[0])
-    
-    for i in newlist:
-        print i
-        
-    
+
+#     
+#     #go fuck you python
+#     list_ips = re.findall(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", str(total))
+#     
+#     newlist = []
+#     for i in list_ips:
+#         newlist.append(i.split('\t')[0])
+#     
+#     for i in newlist:
+#         print i
+#         
+#     
 
     ssh.close()
    
